@@ -28,7 +28,7 @@ jobs:
         run: yes | sdkmanager --licenses
 
       - name: Install Android SDK packages
-        run: sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+        run: sdkmanager --sdk_root="$ANDROID_SDK_ROOT" "platform-tools" "platforms;android-34" "build-tools;34.0.0" "cmdline-tools;latest" "cmake;3.10.2.4988404" "ndk;23.2.8568313"
 
       - name: Download Godot 4.3
         run: |
@@ -54,6 +54,8 @@ jobs:
           [gd_resource type="EditorSettings" format=3]
           [resource]
           export/android/android_sdk_path = "/usr/local/lib/android/sdk"
+export/android/android_sdk_version = "34"
+export/android/android_build_tools_version = "34.0.0"
           export/android/java_sdk_path = "$JAVA_HOME"
           EOF
 
@@ -63,7 +65,7 @@ jobs:
       - name: Export APK
         run: |
           mkdir -p build
-          godot --headless --path . --export-debug "Android" build/BlockyQuest-debug.apk
+          godot --headless --path . --verbose --export-debug "Android" build/BlockyQuest-debug.apk
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
