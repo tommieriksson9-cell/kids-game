@@ -1,0 +1,21 @@
+name: Validate Godot project
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Validate project with Godot
+        uses: barichello/godot-ci@4.3
+        with:
+          godot_version: 4.3
+          cache: true
+          editor: true
+          command: |
+            godot --headless --path . --editor --quit
