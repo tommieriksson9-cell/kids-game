@@ -46,6 +46,17 @@ jobs:
           unzip -q templates.tpz -d templates
           cp -r templates/templates/. "$HOME/.local/share/godot/export_templates/4.3.stable/"
 
+      - name: Configure Godot Android SDK paths
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/.config/godot"
+          cat > "$HOME/.config/godot/editor_settings-4.tres" <<EOF
+          [gd_resource type="EditorSettings" format=3]
+          [resource]
+          export/android/android_sdk_path = "/usr/local/lib/android/sdk"
+          export/android/java_sdk_path = "$JAVA_HOME"
+          EOF
+
       - name: Import project
         run: godot --headless --path . --editor --quit
 
